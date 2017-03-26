@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" href="~/Image/sushi_icon.png">
+    <link href="https://fonts.googleapis.com/css?family=Arima+Madurai" rel="stylesheet" />
+    @*CSS File Import*@
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    @*Script File Import*@
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.scrollTo-2.1.1-min.js"></script>
+    <script src="~/Scripts/Users/custom.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-timepicker-addon.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-custom">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="#" class="tablinks" onclick="openPage(event, 'page-nav')" id="defaultOpen">
+                    <img src="~/Image/sushi_logo.png" />
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#body_info_bot" class="scrollTo">Concept</a></li>
+                    <li><a href="#" class="tablinks" onclick="openPage(event, 'menu')">Thực đơn</a></li>
+                    <li><a href=".event-intro-bg" class="scrollTo">Khuyến mại</a></li>
+                    <li><a href=".event-intro-bg.reserv-intro-bg" class="scrollTo">Đặt bàn</a></li>
+                    <li><a href="#" class="tablinks" onclick="openPage(event, 'news')">Tin Tức</a></li>
+                    <li><a href=".event-intro-bg.contact-intro-bg" class="scrollTo">Liên hệ</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    @RenderBody()
+
+    <footer>
+        <div id="back-to-top">
+            <span class="glyphicon glyphicon-arrow-up"></span>
+        </div>
+        <hr />
+        <div class="foot-top">
+            <div class="row">
+                <div class="col-md-8 col-sm-8 col-xs-12">
+                    @Html.Action("SubcribePartial", "Home")
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <ul>
+                        <li class="res-screen">FOLLOW US</li>
+                        <li><a href="#"><img src="~/Image/social/facebook.png"></a></li>
+                        <li><a href="#"><img src="~/Image/social/twitter.png"></a></li>
+                        <li><a href="#"><img src="~/Image/social/ggplus.png"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="foot-bot">
+            <p class="text-center">Copyright &copy; 2017 SushiStar - Văn hóa ẩm thực Việt Nhật</p>
+        </div>
+    </footer>
+</body>
+</html>

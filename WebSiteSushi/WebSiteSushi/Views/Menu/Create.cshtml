@@ -1,0 +1,57 @@
+﻿@using WebSiteSushi.Models;
+@model WebSiteSushi.Models.Menu
+
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Add New Menu Item</h4>
+</div>
+
+<div class="modal-body">
+    <form id="frmAddMenu">
+        <div class="form-group">
+            <label for="name_food">Menu Item Name : </label>
+            @Html.TextBoxFor(n => n.name_food, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label for="name_id">Name ID of Item : </label>
+            @Html.TextBoxFor(n => n.name_id, new { @class = "form-control" })
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" onclick="SaveMenu()" data-dismiss="modal">Submit</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+
+
+<script>
+    function SaveMenu() {
+        $.ajax({
+            url: '@Url.Action("saveMenu", "Menu")',
+            type: 'post',
+            data: $("#frmAddMenu").serialize(),
+            success: function (response) {
+                if (response == 'True') {
+                    $.ajax({
+                        url: '@Url.Action("MenuPartial", "Menu")',
+                        type: 'post',
+                        success: function (data) {
+                            $("#tbl-menu").html("");
+                            $("#tbl-menu").html(data);
+
+                            $('#add-menu').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                            $("body").css("padding", "0");
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>

@@ -1,0 +1,132 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<WebSiteSushi.Models.Reservation>
+
+@{
+    ViewBag.Title = "ReservationPartial";
+    Layout = null;
+}
+
+<div id="tbl-reservation">
+    <table class="tbl-info">
+        <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">Day</th>
+            <th class="text-center">Time</th>
+            <th class="text-center">Number of Person</th>
+            <th class="text-center">Name Booked Person</th>
+            <th class="text-center">Email</th>
+            <th class="text-center">Phone Number</th>
+            <th class="text-center">Request</th>
+            <th class="text-center">Status</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            var date = DateTime.Now;
+            <tr>
+                <th>@item.BookID</th>
+                <th>@item.BookDate.Value.ToString("dd-MM-yyyy")</th>
+                <th>@item.BookTime</th>
+                <th class="text-center">@item.NumberOfPeople</th>
+                <th>@item.NameBookedPeople</th>
+                <th>@item.Email</th>
+                <th>@item.PhoneNumber</th>
+                <th>@item.MoreRequest</th>
+                <th>
+                    @if (item.Status == true)
+                    {
+                        <a href="#" class="btn btn-danger disabled">Came</a>
+                    }
+                    @if (item.Status == false)
+                    {
+                        if ((item.BookDate.Value.Year > date.Year) || (item.BookDate.Value.Year == date.Year && item.BookDate.Value.Month > date.Month) || (item.BookDate.Value.Year == date.Year && item.BookDate.Value.Month == date.Month && item.BookDate.Value.Day > date.Day))
+                        {
+                            <a class="btn btn-success" href="#" onclick="updateStatus(@item.BookID)" data-toggle="modal" data-target="#update-status">Coming</a>
+                        }
+                        else
+                        {
+                            <a href="#" class="btn btn-primary" onclick="deleteStatus(@item.BookID)" data-toggle="modal" data-target="#delete-status">Delete</a>
+                        }
+                    }
+                </th>
+            </tr>
+        }
+    </table>
+    <div id="pagerReservation">
+        @Html.PagedListPager(Model, page => Url.Action("ReservationPartial", "Reservation", new { page, key = @ViewBag.key }))
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="update-status" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content panel-warning" id="modal-update-status"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-status" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content panel-danger" id="modal-delete-status"></div>
+    </div>
+</div>
+
+<script>
+    var urlReservation = {
+        urlSearch: '@Url.Action("searchPeopleByName", "Reservation")',
+        urlUpdate: '@Url.Action("Update", "Reservation")',
+        urlDelete: '@Url.Action("Delete", "Reservation")'
+    }
+    $(document).ready(function () {
+        $(document).on("click", "#pagerReservation a[href]", function () {
+            $.ajax({
+                url: $(this).attr("href"),
+                type: "GET",
+                cache: false,
+                success: function (result) {
+                    $("#tbl-reservation").html(result);
+                }
+            });
+            return false;
+        });
+    });
+
+    function searchName() {
+        var keySearch = $("form#search-name input[type=text]").val().trim();
+        $.ajax({
+            url: urlReservation.urlSearch,
+            type: "post",
+            data: {
+                nm: keySearch
+            },
+            success: function (data) {
+                $("#tbl-reservation").html("");
+                $("#tbl-reservation").html(data);
+            }
+        });
+    }
+
+    function updateStatus(id) {
+        $.ajax({
+            type: 'get',
+            url: urlReservation.urlUpdate,
+            data: {
+                id: id
+            },
+            success: function (data) {
+                $("#modal-update-status").html(data);
+            }
+        });
+    }
+
+    function deleteStatus(id) {
+        $.ajax({
+            type: 'get',
+            url: urlReservation.urlDelete,
+            data: {
+                id: id
+            },
+            success: function (data) {
+                $("#modal-delete-status").html(data);
+            }
+        });
+    }
+</script>

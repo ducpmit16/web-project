@@ -1,0 +1,138 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<WebSiteSushi.Models.Menu_Detail>
+
+@{
+    ViewBag.Title = "MenuDetailPartial";
+    Layout = null;
+}
+
+<div id="tbl-menu-detail">
+    <table class="tbl-info">
+        <tr>
+            <th>ID</th>
+            <th>Food's Name (A - Z)</th>
+            <th>Food's Price (VNĐ)</th>
+            <th>Belongs To Menu Item</th>
+            <th class="img-col">Image</th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.id_menu_detail</th>
+                <th>@item.name_food_detail</th>
+                <th class="text-center">@item.price_food_detail</th>
+                <th class="text-center">@item.Menu.name_food</th>
+                <th class="img-col"><img src="~/Image/menu-detail/@item.image_food_detail" /></th>
+                <th>
+                    <a class="btn btn-success btn-sm" href="#" onclick="updateMenuDetail(@item.id_menu_detail)" data-toggle="modal" data-target="#update-menu-detail">
+                        <span class="glyphicon glyphicon-edit"></span>&nbsp;Update
+                    </a>
+                </th>
+                <th>
+                    <a class="btn btn-danger btn-sm" href="#" onclick="deleteMenuDetail(@item.id_menu_detail)" data-toggle="modal" data-target="#delete-menu-detail">
+                        <span class="glyphicon glyphicon-trash"></span>&nbsp;Delete
+                    </a>
+                </th>
+            </tr>
+        }
+    </table>
+    <div id="pagerMenuDetail">
+        @Html.PagedListPager(Model, page => Url.Action("MenuDetailPartial", "MenuDetail", new { page, key = @ViewBag.key }))
+    </div>
+    <a class="btn btn-primary btn-lg" href="#" onclick="addMenuDetail()" data-toggle="modal" data-target="#add-menu-detail">Add New</a>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="add-menu-detail" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modal-add-menu-detail"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="update-menu-detail" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modal-update-menu-detail"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-menu-detail" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content panel-danger" id="modal-delete-menu-detail"></div>
+    </div>
+</div>
+
+<script>
+    var urlMenuDetail = {
+        urlSearch: '@Url.Action("searchMenuDetailByName", "MenuDetail")',
+        urlCreate: '@Url.Action("Create", "MenuDetail")',
+        urlUpdate: '@Url.Action("Update", "MenuDetail")',
+        urlDelete: '@Url.Action("Delete", "MenuDetail")'
+    }
+
+    $(document).ready(function () {
+        $(document).on("click", "#pagerMenuDetail a[href]", function () {
+            $.ajax({
+                url: $(this).attr("href"),
+                type: "GET",
+                cache: false,
+                success: function (result) {
+                    $("#tbl-menu-detail").html(result);
+                }
+            });
+            return false;
+        });
+    });
+
+    function searchMenuDetail() {
+        var keySearch = $("form#search-menu-detail input[type=text]").val().trim();
+        $.ajax({
+            url: urlMenuDetail.urlSearch,
+            type: "post",
+            data: {
+                nm: keySearch
+            },
+            success: function (data) {
+                $("#tbl-menu-detail").html("");
+                $("#tbl-menu-detail").html(data);
+            }
+        });
+    }
+
+    function addMenuDetail() {
+        $.ajax({
+            type: 'get',
+            url: urlMenuDetail.urlCreate,
+            success: function (data) {
+                $("#modal-add-menu-detail").html(data);
+            }
+        });
+    }
+
+    function updateMenuDetail(id){
+        $.ajax({
+            type: 'get',
+            url: urlMenuDetail.urlUpdate,
+            data: {
+                id: id
+            },
+            success: function (data) {
+                $("#modal-update-menu-detail").html(data);
+            }
+        });
+    }
+
+    function deleteMenuDetail(id) {
+        $.ajax({
+            type: 'get',
+            url: urlMenuDetail.urlDelete,
+            data: {
+                id: id
+            },
+            success: function (data) {
+                $("#modal-delete-menu-detail").html(data);
+            }
+        });
+    }
+</script>

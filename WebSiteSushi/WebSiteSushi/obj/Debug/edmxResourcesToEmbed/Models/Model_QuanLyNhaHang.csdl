@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuanLyNhaHangModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="ContactId" />
+    </Key>
+    <Property Name="ContactId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ContactName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ContactEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ContactTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ContactTitleContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Event">
+    <Key>
+      <PropertyRef Name="id_event" />
+    </Key>
+    <Property Name="id_event" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name_event" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="date_start" Type="DateTime" Precision="0" />
+    <Property Name="date_end" Type="DateTime" Precision="0" />
+    <Property Name="time_event" Type="Time" Precision="7" />
+    <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="image_event" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Menu_Detail">
+    <Key>
+      <PropertyRef Name="id_menu_detail" />
+    </Key>
+    <Property Name="id_menu_detail" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name_food_detail" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="price_food_detail" Type="Int32" />
+    <Property Name="id_menu" Type="Int32" />
+    <Property Name="image_food_detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Menu" Relationship="Self.FK_Menu_Detail_Menus" FromRole="Menu_Detail" ToRole="Menus" />
+  </EntityType>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="id_menu" />
+    </Key>
+    <Property Name="id_menu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name_food" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="name_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Menu_Detail" Relationship="Self.FK_Menu_Detail_Menus" FromRole="Menus" ToRole="Menu_Detail" />
+  </EntityType>
+  <EntityType Name="News">
+    <Key>
+      <PropertyRef Name="id_news" />
+    </Key>
+    <Property Name="id_news" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name_news" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="poster_news" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="description_news" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="date_post_news" Type="DateTime" Precision="0" />
+    <Property Name="image_news" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Reservation">
+    <Key>
+      <PropertyRef Name="BookID" />
+    </Key>
+    <Property Name="BookID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookDate" Type="DateTime" Precision="0" />
+    <Property Name="BookTime" Type="Time" Precision="7" />
+    <Property Name="NumberOfPeople" Type="Int32" />
+    <Property Name="NameBookedPeople" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="MoreRequest" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id_user" />
+    </Key>
+    <Property Name="id_user" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fullname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_Menu_Detail_Menus">
+    <End Role="Menus" Type="Self.Menu" Multiplicity="0..1" />
+    <End Role="Menu_Detail" Type="Self.Menu_Detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menus">
+        <PropertyRef Name="id_menu" />
+      </Principal>
+      <Dependent Role="Menu_Detail">
+        <PropertyRef Name="id_menu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QuanLyNhaHangEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Contacts" EntityType="Self.Contact" />
+    <EntitySet Name="Events" EntityType="Self.Event" />
+    <EntitySet Name="Menu_Detail" EntityType="Self.Menu_Detail" />
+    <EntitySet Name="Menus" EntityType="Self.Menu" />
+    <EntitySet Name="News" EntityType="Self.News" />
+    <EntitySet Name="Reservations" EntityType="Self.Reservation" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_Menu_Detail_Menus" Association="Self.FK_Menu_Detail_Menus">
+      <End Role="Menus" EntitySet="Menus" />
+      <End Role="Menu_Detail" EntitySet="Menu_Detail" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

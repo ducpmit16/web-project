@@ -1,0 +1,56 @@
+﻿@using WebSiteSushi.Models;
+@model Menu
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = null;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Edit Menu Item</h4>
+</div>
+<div class="modal-body">
+    <form id="frmEditMenu">        
+        @Html.HiddenFor(n => n.id_menu)
+        <div class="form-group">
+            <label for="name_food">Menu Item Name : </label>
+            @Html.TextBoxFor(n => n.name_food, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label for="name_food">Name ID of Item : </label>
+            @Html.TextBoxFor(n => n.name_id, new { @class = "form-control" })
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" onclick="Edit()" data-dismiss="modal">Submit</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+
+<script>
+    function Edit(id) {
+        $.ajax({
+            url: '@Url.Action("editMenu", "Menu")',
+            type: 'post',
+            data: $("#frmEditMenu").serialize(),
+            success: function (response) {
+                if (response == 'True') {
+                    $.ajax({
+                        url: '@Url.Action("MenuPartial", "Menu")',
+                        type: 'post',
+                        success: function (data) {
+                            $("#tbl-menu").html("");
+                            $("#tbl-menu").html(data);
+
+                            $('#edit-menu').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                            $("body").css("padding", "0");
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>

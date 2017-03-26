@@ -1,0 +1,49 @@
+﻿@using WebSiteSushi.Models;
+@model WebSiteSushi.Models.News
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = null;
+}
+
+<div class="modal-header panel-heading">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Delete News Item</h4>
+</div>
+<div class="modal-body">
+    @Html.HiddenFor(n => n.id_news)
+    <p>Are You Sure ???</p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" onclick="Erase(@ViewBag.id_news)" data-dismiss="modal">Submit</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+
+<script>
+    function Erase(id) {
+        $.ajax({
+            url: '@Url.Action("deleteNews", "News")',
+            type: 'post',
+            data: {
+                id_news: id
+            },
+            success: function (response) {
+                if (response == 'True') {
+                    $.ajax({
+                        url: '@Url.Action("NewsPartial", "News")',
+                        type: 'post',
+                        success: function (data) {
+                            $("#tbl-news").html("");
+                            $("#tbl-news").html(data);
+
+                            $('#delete-news').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                            $("body").css("padding", "0");
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>

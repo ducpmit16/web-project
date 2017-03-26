@@ -1,0 +1,21 @@
+﻿@using WebSiteSushi.Models
+@model List<News>
+
+@{
+    ViewBag.Title = "NewsRandomPartial";
+    Layout = null;
+}
+
+@foreach (var item in Model)
+{
+    <a href="#">
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-xs-3">
+                <img src="~/Image/news/@item.image_news" />
+            </div>
+            <div class="col-md-9 col-sm-9 col-xs-9">
+                <p>@item.name_news</p>
+            </div>
+        </div>
+    </a>
+}

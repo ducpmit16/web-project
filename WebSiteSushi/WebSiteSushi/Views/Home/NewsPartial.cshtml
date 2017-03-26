@@ -1,0 +1,53 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<WebSiteSushi.Models.News>
+
+@{
+    ViewBag.Title = "NewsPartial";
+    Layout = null;
+}
+
+<div id="tbl-news">
+    @foreach (var item in Model)
+    {
+        <div class="news-detail">
+            <img src="~/Image/news/@item.image_news" />
+            <p>@item.name_news</p>
+            <a href="#">Xem chi tiết...</a>
+        </div>
+        <hr />
+    }
+    <div id="pagerNews" class="pager">
+        @Html.PagedListPager(Model, page => Url.Action("NewsPartial", "Home", new { page, key = @ViewBag.key }))
+    </div>
+</div>
+    
+<script>
+    $(document).ready(function () {
+        $(document).on("click", "#pagerNews a[href]", function () {
+            $.ajax({
+                url: $(this).attr("href"),
+                type: "GET",
+                cache: false,
+                success: function (result) {
+                    $("div#tbl-news").html(result);
+                }
+            });
+            return false;
+        });
+    });
+
+    function searchNews() {
+        var keySearch = $("form#search-news input[type=text]").val().trim();
+        $.ajax({
+            url: '@Url.Action("searchNewsByName", "Home")',
+            type: "post",
+            data: {
+                nm: keySearch
+            },
+            success: function (data) {
+                $("#tbl-news").html("");
+                $("#tbl-news").html(data);
+            }
+        });
+    }
+</script>

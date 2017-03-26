@@ -1,0 +1,85 @@
+﻿@using WebSiteSushi.Models;
+@model WebSiteSushi.Models.Event
+
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Add New Event</h4>
+</div>
+
+<div class="modal-body">
+    <form enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name_event">Event's Title : </label>
+            @Html.TextBox("name_event", null, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label for="date_start">Start Day : </label>
+            @Html.TextBox("date_start", null, new { @class = "form-control datepicker" })
+        </div>
+        <div class="form-group">
+            <label for="date_end">End Day : </label>
+            @Html.TextBox("date_end", null, new { @class = "form-control datepicker" })
+        </div>
+        <div class="form-group">
+            <label for="time_event">Event Time : </label>
+            @Html.TextBox("time_event", null, new { @class = "form-control timepicker" })
+        </div>
+        <div class="form-group">
+            <label for="location">Location : </label>
+            @Html.TextBox("location", null, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label for="image_event">News Image : </label>
+            <input type="file" name="photo" class="filestyle" data-placeholder="No file" />
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" onclick="SaveEvent()" data-dismiss="modal">Submit</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(":file").filestyle({
+            placeholder: "No file"
+        });
+        $(".datepicker").datepicker();
+        $(".timepicker").timepicker();
+    });
+
+    function SaveEvent() {
+        var formData = new FormData($("form")[4]);
+        $.ajax({
+            url: '@Url.Action("saveEvent", "Event")',
+            type: 'post',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response == 'True') {
+                    $.ajax({
+                        url: '@Url.Action("EventPartial", "Event")',
+                        type: 'post',
+                        success: function (data) {
+                            $("#tbl-event").html("");
+                            $("#tbl-event").html(data);
+                            // dinh dang lai <body>
+                            $('#add-event').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                            $("body").css("padding", "0");
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>
+

@@ -1,0 +1,58 @@
+﻿@using WebSiteSushi.Models
+@model List<Menu>
+
+@{
+    ViewBag.Title = "MenuPartial";
+    Layout = null;
+}
+
+<div class="menu-content">
+    <div class="row">
+        <div class="col-md-3 col-sm-3 col-xs-12">
+            <ul class="tab">
+                @{
+                    int count = 0;
+                    foreach (var item in Model)
+                    {
+                        count++;
+                        if (count == 1)
+                        {
+                            <li><a href="#" class="tablinksz" onclick="openMenu(event, '@item.name_id')" id="defaultOpenz">@item.name_food</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="#" class="tablinksz" onclick="openMenu(event, '@item.name_id')">@item.name_food</a></li>
+                        }
+                    }
+                }
+            </ul>
+        </div>
+        <div class="col-md-9 col-sm-9 col-xs-12">
+            <p class="menu-title">Menu Set</p>
+            <hr />
+            @foreach (var i in Model)
+            {
+                <div id="@i.name_id" class="tabcontentz">
+                    <div class="row">
+                        @foreach (var j in i.Menu_Detail.ToList())
+                        {
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <img src="~/Image/menu-detail/@j.image_food_detail">
+                                    </div>
+                                    <div class="col-md-5 col-sm-5 col-xs-5">
+                                        <p>@j.name_food_detail</p>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                        <p>@j.price_food_detail</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

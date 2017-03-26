@@ -1,0 +1,52 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<WebSiteSushi.Models.Event>
+
+@{
+    ViewBag.Title = "EventPartial";
+    Layout = null;
+}
+
+<div id="tbl-event">
+    @foreach (var item in Model)
+    {
+        <div class="event-info-detail">
+            <hr />
+            <a href="#">
+                <div class="row">
+                    <div class="col-md-2 col-sm-2 col-xs-5">
+                        <img src="~/Image/event/@item.image_event">
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-7">
+                        <p>@item.name_event</p>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <p>
+                            <span class="glyphicon glyphicon-calendar"></span>&nbsp;<text>@item.date_start.Value.ToString("dd-MM-yyyy") - @item.date_end.Value.ToString("dd-MM-yyyy")</text>
+                            <span class="glyphicon glyphicon-time res-screen"></span>&nbsp;<text>@item.time_event</text>
+                            <span class="glyphicon glyphicon-tags res-screen"></span>&nbsp;<text>@item.location</text>
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    }
+    <div id="pagerEvent" class="pager">
+        @Html.PagedListPager(Model, page => Url.Action("EventPartial", "Home", new { page, key = @ViewBag.key }))
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(document).on("click", "#pagerEvent a[href]", function () {
+            $.ajax({
+                url: $(this).attr("href"),
+                type: "GET",
+                cache: false,
+                success: function (result) {
+                    $("div#tbl-event").html(result);
+                }
+            });
+            return false;
+        });
+    });
+</script>

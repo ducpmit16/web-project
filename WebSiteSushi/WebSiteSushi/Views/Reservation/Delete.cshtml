@@ -1,0 +1,50 @@
+﻿@using WebSiteSushi.Models;
+@model WebSiteSushi.Models.Reservation
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = null;
+}
+
+<div class="modal-header panel-heading">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Delete Order</h4>
+</div>
+<div class="modal-body">
+    @Html.HiddenFor(n => n.BookID)
+    <p>Are You Sure ???</p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" onclick="Erase(@ViewBag.id_book)" data-dismiss="modal">Submit</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+
+<script>
+    function Erase(id) {
+        $.ajax({
+            url: '@Url.Action("deleteStatus", "Reservation")',
+            type: 'post',
+            data: {
+                id_book: id
+            },
+            success: function (response) {
+                if (response == 'True') {
+                    $.ajax({
+                        url: '@Url.Action("ReservationPartial", "Reservation")',
+                        type: 'post',
+                        success: function (data) {
+                            $("#tbl-reservation").html("");
+                            $("#tbl-reservation").html(data);
+
+                            $('#delete-status').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                            $("body").css("padding", "0");
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>
+

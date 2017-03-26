@@ -1,0 +1,50 @@
+﻿@using WebSiteSushi.Models
+@model Reservation
+@{
+    ViewBag.Title = "ReservationPartial";
+    Layout = null;
+}
+
+<p class="text-center">Hãy để SushiStar truyền niềm hạnh phúc đó tới bạn bằng cách</p>
+<p class="text-center">ĐẶT BÀN NGAY HÔM NAY</p>
+<form>
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+            <div class="input-group">
+                <input type="text" id="reservation-day" class="form-control datepicker" placeholder="Ngày đặt bàn *">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+            <div class="input-group">
+                <input type="text" id="reservation-time" class="form-control timepicker" placeholder="Thời gian *">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+            <input type="text" class="form-control" placeholder="Số người *">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+            <input type="text" class="form-control" placeholder="Họ và tên người đặt *">
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+            <input type="email" class="form-control" placeholder="Địa chi Email *">
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+            <input type="tel" class="form-control" placeholder="Số điện thoại *">
+        </div>
+    </div>
+    <div class="form-group">
+        <textarea class="form-control" rows="5" placeholder="Yêu cầu thêm"></textarea>
+    </div>
+    <input type="submit" value="ĐẶT BÀN NGAY">
+</form>
+
+<script>
+    $(document).ready(function () {
+        $(".datepicker").datepicker();
+        $(".timepicker").timepicker();
+    });
+</script>

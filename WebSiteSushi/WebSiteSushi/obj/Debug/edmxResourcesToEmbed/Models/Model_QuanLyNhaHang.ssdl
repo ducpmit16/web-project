@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuanLyNhaHangModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="ContactId" />
+    </Key>
+    <Property Name="ContactId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ContactName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ContactEmail" Type="varchar" MaxLength="100" />
+    <Property Name="ContactTitle" Type="nvarchar" MaxLength="100" />
+    <Property Name="ContactTitleContent" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Events">
+    <Key>
+      <PropertyRef Name="id_event" />
+    </Key>
+    <Property Name="id_event" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name_event" Type="nvarchar" MaxLength="200" />
+    <Property Name="date_start" Type="date" />
+    <Property Name="date_end" Type="date" />
+    <Property Name="time_event" Type="time" Precision="7" />
+    <Property Name="location" Type="nvarchar" MaxLength="50" />
+    <Property Name="image_event" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Menu_Detail">
+    <Key>
+      <PropertyRef Name="id_menu_detail" />
+    </Key>
+    <Property Name="id_menu_detail" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name_food_detail" Type="nvarchar" MaxLength="200" />
+    <Property Name="price_food_detail" Type="int" />
+    <Property Name="id_menu" Type="int" />
+    <Property Name="image_food_detail" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Menus">
+    <Key>
+      <PropertyRef Name="id_menu" />
+    </Key>
+    <Property Name="id_menu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name_food" Type="nvarchar" MaxLength="50" />
+    <Property Name="name_id" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="News">
+    <Key>
+      <PropertyRef Name="id_news" />
+    </Key>
+    <Property Name="id_news" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name_news" Type="nvarchar" MaxLength="200" />
+    <Property Name="poster_news" Type="nvarchar" MaxLength="50" />
+    <Property Name="description_news" Type="nvarchar(max)" />
+    <Property Name="date_post_news" Type="date" />
+    <Property Name="image_news" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Reservation">
+    <Key>
+      <PropertyRef Name="BookID" />
+    </Key>
+    <Property Name="BookID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookDate" Type="date" />
+    <Property Name="BookTime" Type="time" Precision="7" />
+    <Property Name="NumberOfPeople" Type="int" />
+    <Property Name="NameBookedPeople" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+    <Property Name="PhoneNumber" Type="varchar" MaxLength="12" />
+    <Property Name="MoreRequest" Type="nvarchar(max)" />
+    <Property Name="Status" Type="bit" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="id_user" />
+    </Key>
+    <Property Name="id_user" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+    <Property Name="fullname" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK_Menu_Detail_Menus">
+    <End Role="Menus" Type="Self.Menus" Multiplicity="0..1" />
+    <End Role="Menu_Detail" Type="Self.Menu_Detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menus">
+        <PropertyRef Name="id_menu" />
+      </Principal>
+      <Dependent Role="Menu_Detail">
+        <PropertyRef Name="id_menu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QuanLyNhaHangModelStoreContainer">
+    <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Menu_Detail" EntityType="Self.Menu_Detail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Reservation" EntityType="Self.Reservation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Menu_Detail_Menus" Association="Self.FK_Menu_Detail_Menus">
+      <End Role="Menus" EntitySet="Menus" />
+      <End Role="Menu_Detail" EntitySet="Menu_Detail" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

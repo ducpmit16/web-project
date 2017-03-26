@@ -1,0 +1,75 @@
+﻿@using WebSiteSushi.Models;
+@model WebSiteSushi.Models.Menu_Detail
+
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Add New Menu Detail Item</h4>
+</div>
+
+<div class="modal-body">
+    <form enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name_food_detail">Menu Detail Item's Name : </label>
+            @Html.TextBox("name_food_detail", null, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label for="price_food_detail">Menu Detail Item's Price : </label>
+            @Html.TextBox("price_food_detail", null, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label for="id_menu">Belongs to Menu Item : </label>
+            @Html.DropDownList("id_menu", (List<SelectListItem>)ViewBag.listMenu, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label for="image_food_detail">Menu Detail Item's Image : </label>
+            <input type="file" name="photo" class="filestyle" data-placeholder="No file" />
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" onclick="SaveMenuDetail()" data-dismiss="modal">Submit</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $(":file").filestyle({
+            placeholder: "No file"
+        });
+    });
+    
+    function SaveMenuDetail() {
+        var formData = new FormData($("form")[2]);
+        $.ajax({
+            url: '@Url.Action("saveMenuDetail", "MenuDetail")',
+            type: 'post',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response == 'True') {
+                    $.ajax({
+                        url: '@Url.Action("MenuDetailPartial", "MenuDetail")',
+                        type: 'post',
+                        success: function (data) {
+                            $("#tbl-menu-detail").html("");
+                            $("#tbl-menu-detail").html(data);
+                            // dinh dang lai <body>
+                            $('#add-menu-detail').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                            $("body").css("padding", "0");
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>

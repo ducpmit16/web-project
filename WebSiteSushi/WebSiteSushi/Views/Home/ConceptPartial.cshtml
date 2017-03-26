@@ -1,0 +1,25 @@
+﻿@using WebSiteSushi.Models
+@model List<Menu_Detail>
+
+@{
+    ViewBag.Title = "ConceptPartial";
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <p class="text-center top-title">Concept</p>
+        <p class="text-center bot-title">ẨM THỰC NHẬT BẢN</p>
+        <p class="text-center">Với tên gọi Sushi Star mang ý nghĩa là niềm vui, niềm hành phúc trong tiếng Nhật, Sushi Star gợi liên tưởng về cảm giác vui tươi, hào hứng và mong muốn tạo sự hài lòng cao nhất cho thực khách khi được thưởng thức các món ăn Nhật Bản tươi ngon, chọn lọc tại nhà hàng.</p>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    <img src="~/Image/menu-detail/@item.image_food_detail" title="@item.name_food_detail">
+                </div>
+            }
+        </div>
+    </div>
+</div>

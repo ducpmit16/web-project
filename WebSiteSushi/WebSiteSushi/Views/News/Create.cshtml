@@ -1,0 +1,79 @@
+﻿@using WebSiteSushi.Models;
+@model WebSiteSushi.Models.News
+
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Add News Item</h4>
+</div>
+
+<div class="modal-body">
+    <form enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name_news">News' Title : </label>
+            @Html.TextBox("name_news", null, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label for="poster_news">Posters Name : </label>
+            @Html.TextBox("poster_news", null, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label for="date_post_news">Posted Date : </label>
+            @Html.TextBox("date_post_news", null, new { @class = "form-control", @id = "datepicker" })
+        </div>
+        <div class="form-group">
+            <label for="description_news">Poster Description : </label>
+            @Html.TextBox("description_news", null, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label for="image_news">News Image : </label>
+            <input type="file" name="photo" class="filestyle" data-placeholder="No file" />
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" onclick="SaveNews()" data-dismiss="modal">Submit</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(":file").filestyle({
+            placeholder: "No file"
+        });
+        $("#datepicker").datepicker();
+    });
+
+    function SaveNews() {
+        var formData = new FormData($("form")[3]);
+        $.ajax({
+            url: '@Url.Action("saveNews", "News")',
+            type: 'post',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response == 'True') {
+                    $.ajax({
+                        url: '@Url.Action("NewsPartial", "News")',
+                        type: 'post',
+                        success: function (data) {
+                            $("#tbl-news").html("");
+                            $("#tbl-news").html(data);
+                            // dinh dang lai <body>
+                            $('#add-news').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                            $("body").css("padding", "0");
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>

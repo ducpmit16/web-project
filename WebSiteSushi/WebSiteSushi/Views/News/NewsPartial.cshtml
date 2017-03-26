@@ -1,0 +1,165 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<WebSiteSushi.Models.News>
+
+@{
+    ViewBag.Title = "NewsPartial";
+    Layout = null;
+}
+
+<div id="tbl-news">
+    <table class="tbl-info">
+        <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">Title Name</th>
+            <th class="text-center">Posters</th>
+            <th class="text-center">Posted Date</th>
+            <th class="text-center">Avatar</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.id_news</th>
+                <th>@item.name_news</th>
+                <th>@item.poster_news</th>
+                <th>@item.date_post_news.Value.ToString("dd-MM-yyyy")</th>
+                <th class="img-col"><img src="~/Image/news/@item.image_news" /></th>
+                <th>
+                    <a class="btn btn-success btn-sm" href="#" onclick="updateNews(@item.id_news)" data-toggle="modal" data-target="#update-news">
+                        <span class="glyphicon glyphicon-edit"></span>&nbsp;Update
+                    </a>
+                </th>
+                <th>
+                    <a href="#" class="btn btn-danger btn-sm" onclick="deleteNews(@item.id_news)" data-toggle="modal" data-target="#delete-news">
+                        <span class="glyphicon glyphicon-trash"></span>&nbsp;Delete
+                    </a>
+                </th>
+                <th>
+                    <a class="btn btn-info btn-sm" href="#" onclick="detailNews(@item.id_news)" data-toggle="modal" data-target="#detail-news">
+                        <span class="glyphicon glyphicon-book"></span>&nbsp;Detail
+                    </a>
+                </th>
+            </tr>
+        }
+    </table>
+    <div id="pagerNews">
+        @Html.PagedListPager(Model, page => Url.Action("NewsPartial", "News", new { page, key = @ViewBag.key }))
+    </div>
+    <a class="btn btn-primary btn-lg" href="#" onclick="addNews()" data-toggle="modal" data-target="#add-news">Add News</a>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="add-news" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modal-add-news"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="update-news" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modal-update-news"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="detail-news" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="modal-detail-news"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-news" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content panel-danger" id="modal-delete-news"></div>
+    </div>
+</div>
+
+<script>
+    var urlNews = {
+        urlSearch: '@Url.Action("searchNewsByName", "News")',
+        urlDetail: '@Url.Action("Detail", "News")',
+        urlCreate: '@Url.Action("Create", "News")',
+        urlUpdate: '@Url.Action("Update", "News")',
+        urlDelete: '@Url.Action("Delete", "News")'
+    }
+
+    $(document).ready(function () {
+        $(document).on("click", "#pagerNews a[href]", function () {
+            $.ajax({
+                url: $(this).attr("href"),
+                type: "GET",
+                cache: false,
+                success: function (result) {
+                    $("#tbl-news").html(result);
+                }
+            });
+            return false;
+        });
+    });
+
+    function searchNews() {
+        var keySearch = $("form#search-news input[type=text]").val().trim();
+        $.ajax({
+            url: urlNews.urlSearch,
+            type: "post",
+            data: {
+                nm: keySearch
+            },
+            success: function (data) {
+                $("#tbl-news").html("");
+                $("#tbl-news").html(data);
+            }
+        });
+    }
+
+    function detailNews(id) {
+        $.ajax({
+            url: urlNews.urlDetail,
+            type: "post",
+            data: {
+                news_Id: id
+            },
+            success: function (data) {
+                $("#modal-detail-news").html("");
+                $("#modal-detail-news").html(data);
+            }
+        });
+    }
+
+    function addNews() {
+        $.ajax({
+            type: 'get',
+            url: urlNews.urlCreate,
+            success: function (data) {
+                $("#modal-add-news").html(data);
+            }
+        });
+    }
+
+    function updateNews(id) {
+        $.ajax({
+            type: 'get',
+            url: urlNews.urlUpdate,
+            data: {
+                id: id
+            },
+            success: function (data) {
+                $("#modal-update-news").html(data);
+            }
+        });
+    }
+
+    function deleteNews(id) {
+        $.ajax({
+            type: 'get',
+            url: urlNews.urlDelete,
+            data: {
+                id: id
+            },
+            success: function (data) {
+                $("#modal-delete-news").html(data);
+            }
+        });
+    }
+</script>

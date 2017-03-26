@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="QuanLyNhaHangModelStoreContainer" CdmEntityContainer="QuanLyNhaHangEntities">
+    <EntitySetMapping Name="Contacts">
+      <EntityTypeMapping TypeName="QuanLyNhaHangModel.Contact">
+        <MappingFragment StoreEntitySet="Contact">
+          <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+          <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+          <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+          <ScalarProperty Name="ContactTitle" ColumnName="ContactTitle" />
+          <ScalarProperty Name="ContactTitleContent" ColumnName="ContactTitleContent" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Events">
+      <EntityTypeMapping TypeName="QuanLyNhaHangModel.Event">
+        <MappingFragment StoreEntitySet="Events">
+          <ScalarProperty Name="id_event" ColumnName="id_event" />
+          <ScalarProperty Name="name_event" ColumnName="name_event" />
+          <ScalarProperty Name="date_start" ColumnName="date_start" />
+          <ScalarProperty Name="date_end" ColumnName="date_end" />
+          <ScalarProperty Name="time_event" ColumnName="time_event" />
+          <ScalarProperty Name="location" ColumnName="location" />
+          <ScalarProperty Name="image_event" ColumnName="image_event" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Menu_Detail">
+      <EntityTypeMapping TypeName="QuanLyNhaHangModel.Menu_Detail">
+        <MappingFragment StoreEntitySet="Menu_Detail">
+          <ScalarProperty Name="id_menu_detail" ColumnName="id_menu_detail" />
+          <ScalarProperty Name="name_food_detail" ColumnName="name_food_detail" />
+          <ScalarProperty Name="price_food_detail" ColumnName="price_food_detail" />
+          <ScalarProperty Name="id_menu" ColumnName="id_menu" />
+          <ScalarProperty Name="image_food_detail" ColumnName="image_food_detail" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Menus">
+      <EntityTypeMapping TypeName="QuanLyNhaHangModel.Menu">
+        <MappingFragment StoreEntitySet="Menus">
+          <ScalarProperty Name="id_menu" ColumnName="id_menu" />
+          <ScalarProperty Name="name_food" ColumnName="name_food" />
+          <ScalarProperty Name="name_id" ColumnName="name_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="News">
+      <EntityTypeMapping TypeName="QuanLyNhaHangModel.News">
+        <MappingFragment StoreEntitySet="News">
+          <ScalarProperty Name="id_news" ColumnName="id_news" />
+          <ScalarProperty Name="name_news" ColumnName="name_news" />
+          <ScalarProperty Name="poster_news" ColumnName="poster_news" />
+          <ScalarProperty Name="description_news" ColumnName="description_news" />
+          <ScalarProperty Name="date_post_news" ColumnName="date_post_news" />
+          <ScalarProperty Name="image_news" ColumnName="image_news" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reservations">
+      <EntityTypeMapping TypeName="QuanLyNhaHangModel.Reservation">
+        <MappingFragment StoreEntitySet="Reservation">
+          <ScalarProperty Name="BookID" ColumnName="BookID" />
+          <ScalarProperty Name="BookDate" ColumnName="BookDate" />
+          <ScalarProperty Name="BookTime" ColumnName="BookTime" />
+          <ScalarProperty Name="NumberOfPeople" ColumnName="NumberOfPeople" />
+          <ScalarProperty Name="NameBookedPeople" ColumnName="NameBookedPeople" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="MoreRequest" ColumnName="MoreRequest" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="QuanLyNhaHangModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="QuanLyNhaHangModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="id_user" ColumnName="id_user" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="fullname" ColumnName="fullname" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

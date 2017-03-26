@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" href="~/Image/sushi_icon.png"/>
+    @* Style Sheet Files *@
+    <link href="~/Content/admin-custom.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    @* Script Files *@
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/Admin/admin-custom.js"></script>
+    <script src="~/Scripts/Menu/menu-custom.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/bootstrap-filestyle.min.js"></script>
+</head>
+<body>
+    <div class="nav-bar">
+        <nav class="navbar navbar-default">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand home-name" href="#">Dashboard</a>
+                <a class="navbar-brand toggle" href="#">
+                    <span class="glyphicon glyphicon-menu-hamburger"></span>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right nav-bar">
+                    <li><a href="#"><span class="glyphicon glyphicon-signal"></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-dashboard"></span></a></li>
+                    <li><a href="#">Benjamin Combs</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-off"></span></a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div id="body">
+        @RenderBody()
+    </div>
+</body>    
+</html>

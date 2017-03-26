@@ -1,0 +1,55 @@
+﻿@using WebSiteSushi.Models;
+@model WebSiteSushi.Models.Menu
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = null;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Delete Menu Item</h4>
+</div>
+<div class="modal-body">
+    @Html.HiddenFor(n => n.id_menu)
+    <p>Are You Sure ???</p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" onclick="Erase(@ViewBag.id_menu)" data-dismiss="modal">Submit</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+
+<script>
+    function Erase(id) {
+        $.ajax({
+            url: '@Url.Action("deleteMenu", "Menu")',
+            type: 'post',
+            data: {
+                id_menu: id
+            },
+            success: function (response) {
+                if (response == 'True') {
+                    $.ajax({
+                        url: '@Url.Action("MenuPartial", "Menu")',
+                        type: 'post',
+                        success: function (data) {
+                            $("#tbl-menu").html("");
+                            $("#tbl-menu").html(data);
+
+                            $('#delete-menu').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                            $("body").css("padding", "0");
+                        }
+                    });
+                } 
+                else {
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                    $("body").css("padding", "0");
+                    $("#error-delete-menu").modal();
+                }
+            }
+        });
+    }
+</script>

@@ -1,0 +1,94 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<WebSiteSushi.Models.Menu>
+@{
+    ViewBag.Title = "MenuPartial";
+    Layout = null;
+}
+
+<div id="tbl-menu">
+    <table class="tbl-info">
+        <tr>
+            <th>ID Menu</th>
+            <th>Name of Menu Item</th>
+            <th>Name Id of Menu Item</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.id_menu</th>
+                <th>@item.name_food</th>
+                <th>@item.name_id</th>
+                <th>
+                    <a class="btn btn-success btn-sm" href="#" onclick="editMenu(@item.id_menu)" data-toggle="modal" data-target="#edit-menu">
+                        <span class="glyphicon glyphicon-edit"></span>&nbsp;Update
+                    </a>
+                </th>
+                <th>
+                    <a href="#" class="btn btn-danger btn-sm" onclick="deleteMenu(@item.id_menu)" data-toggle="modal" data-target="#delete-menu">
+                        <span class="glyphicon glyphicon-trash"></span>&nbsp;Delete
+                    </a>
+                </th>
+                <th>
+                    <a class="btn btn-info btn-sm" href="#" onclick="detailMenu(@item.id_menu)" data-toggle="modal" data-target="#detail-menu">
+                        <span class="glyphicon glyphicon-book"></span>&nbsp;Detail
+                    </a>
+                </th>
+            </tr>
+        }
+    </table>
+    <div id="pagerMenu">
+        @Html.PagedListPager(Model, page => Url.Action("MenuPartial", "Menu", new { page, key = @ViewBag.key }))
+    </div>
+    <a class="btn btn-primary btn-lg" href="#" onclick="addMenu()" data-toggle="modal" data-target="#add-menu">Add New</a>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="add-menu" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modal-add-menu"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="edit-menu" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modal-edit-menu"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-menu" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modal-delete-menu"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="detail-menu" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="modal-detail-menu"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="error-delete-menu" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content panel-danger">
+            <div class="modal-header panel-heading">WARNING !!!</div>
+            <div class="modal-body">Please delete all items of the menu before doing this. Thank You !!</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //detail in file : /Scripts/Menu/menu-custom.js
+    var urlMenu = {
+        urlCreate: '@Url.Action("Create", "Menu")',
+        urlEdit: '@Url.Action("Edit", "Menu")',
+        urlDelete: '@Url.Action("Delete", "Menu")',
+        urlDetail: '@Url.Action("Detail", "Menu")',
+        urlSearch: '@Url.Action("searchMenuByName", "Menu")'
+    }
+</script>

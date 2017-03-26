@@ -1,0 +1,31 @@
+﻿@using WebSiteSushi.Models
+@model News
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = null;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Detail Menu</h4>
+</div>
+<div class="modal-body">
+    <table class="tbl-info">
+        <tr>
+            <th class="text-center"><strong>ID</strong></th>
+            <th>@Model.id_news</th>
+        </tr>
+        <tr>
+            <th class="text-center"><strong>Title</strong></th>
+            <th>@Model.name_news</th>
+        </tr>
+        <tr>
+            <th class="text-center"><strong>Description</strong></th>
+            <th>@Model.description_news</th>
+        </tr>
+    </table>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>

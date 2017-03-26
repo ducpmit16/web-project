@@ -1,0 +1,43 @@
+﻿@using WebSiteSushi.Models
+@model Contact
+
+@{
+    ViewBag.Title = "ContactPartial";
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="contact-info-top">
+            <form>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Họ và tên *">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Địa chỉ Email *">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Tiêu đề">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" rows="5" placeholder="Nội dung tiêu đề"></textarea>
+                </div>
+                <input type="submit" value="LIÊN HỆ">
+            </form>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="contact-info-bot">
+            <p>LIÊN HỆ VỚI CHÚNG TÔI</p>
+            <p>Liên hệ với chúng tôi khi cần, Nếu có thắc mắc và phản hồi, xin vui lòng gửi email cho chúng tôi tại <strong>marketing@star.com</strong></p>
+            <p>Hoặc liên hệ trực tiếp với chúng tôi qua Hotline</p>
+            <img src="~/Image/hotpot.png">
+        </div>
+    </div>
+</div>

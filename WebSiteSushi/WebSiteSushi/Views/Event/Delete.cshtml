@@ -1,0 +1,49 @@
+﻿@using WebSiteSushi.Models;
+@model WebSiteSushi.Models.Event
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = null;
+}
+
+<div class="modal-header panel-heading">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Delete Event</h4>
+</div>
+<div class="modal-body">
+    @Html.HiddenFor(n => n.id_event)
+    <p>Are You Sure ???</p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" onclick="Erase(@ViewBag.id_event)" data-dismiss="modal">Submit</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+
+<script>
+    function Erase(id) {
+        $.ajax({
+            url: '@Url.Action("deleteEvent", "Event")',
+            type: 'post',
+            data: {
+                id_event: id
+            },
+            success: function (response) {
+                if (response == 'True') {
+                    $.ajax({
+                        url: '@Url.Action("EventPartial", "Event")',
+                        type: 'post',
+                        success: function (data) {
+                            $("#tbl-event").html("");
+                            $("#tbl-event").html(data);
+
+                            $('#delete-event').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                            $("body").css("padding", "0");
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>

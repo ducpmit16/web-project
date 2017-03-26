@@ -1,0 +1,142 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<WebSiteSushi.Models.Event>
+
+@{
+    ViewBag.Title = "EventPartial";
+    Layout = null;
+}
+
+<div id="tbl-event">
+    <table class="tbl-info">
+        <tr>
+            <th>ID</th>
+            <th>Event Name</th>
+            <th>Start Day</th>
+            <th>End Day</th>
+            <th>Time Event</th>
+            <th>Location</th>
+            <th>Event Avatar</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.id_event</th>
+                <th>@item.name_event</th>
+                <th>@item.date_start.Value.ToString("dd-MM-yyyy")</th>
+                <th>@item.date_end.Value.ToString("dd-MM-yyyy")</th>
+                <th>@item.time_event</th>
+                <th>@item.location</th>
+                <th class="img-col"><img src="~/Image/event/@item.image_event" /></th>
+                <th>
+                    <a class="btn btn-success btn-sm" href="#" onclick="updateEvent(@item.id_event)" data-toggle="modal" data-target="#update-event">
+                        <span class="glyphicon glyphicon-edit"></span>&nbsp;Update
+                    </a>
+                </th>
+                <th>
+                    <a href="#" class="btn btn-danger btn-sm" onclick="deleteEvent(@item.id_event)" data-toggle="modal" data-target="#delete-event">
+                        <span class="glyphicon glyphicon-trash"></span>&nbsp;Delete
+                    </a>
+                </th>
+            </tr>
+        }
+    </table>
+    <div id="pagerEvent">
+        @Html.PagedListPager(Model, page => Url.Action("EventPartial", "Event", new { page, key = @ViewBag.key }))
+    </div>
+    <a class="btn btn-primary btn-lg" href="#" onclick="addEvent()" data-toggle="modal" data-target="#add-event">Add Event</a>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="add-event" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modal-add-event"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="update-event" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modal-update-event"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-event" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content panel-danger" id="modal-delete-event"></div>
+    </div>
+</div>
+
+<script>
+    var urlEvent = {
+        urlSearch: '@Url.Action("searchEventByName", "Event")',
+        urlCreate: '@Url.Action("Create", "Event")',
+        urlUpdate: '@Url.Action("Update", "Event")',
+        urlDelete: '@Url.Action("Delete", "Event")'
+    }
+    $(document).ready(function () {
+        $(document).on("click", "#pagerEvent a[href]", function () {
+            $.ajax({
+                url: $(this).attr("href"),
+                type: "GET",
+                cache: false,
+                success: function (result) {
+                    $("#tbl-event").html(result);
+                }
+            });
+            return false;
+        });
+    });
+
+    function searchEvent() {
+        var keySearch = $("form#search-event input[type=text]").val().trim();
+        $.ajax({
+            url: urlEvent.urlSearch,
+            type: "post",
+            data: {
+                nm: keySearch
+            },
+            success: function (data) {
+                $("#tbl-event").html("");
+                $("#tbl-event").html(data);
+            }
+        });
+    }
+
+    function addEvent() {
+        $.ajax({
+            type: 'get',
+            url: urlEvent.urlCreate,
+            success: function (data) {
+                $("#modal-add-event").html(data);
+            }
+        });
+    }
+
+    function updateEvent(id) {
+        $.ajax({
+            type: 'get',
+            url: urlEvent.urlUpdate,
+            data: {
+                id: id
+            },
+            success: function (data) {
+                $("#modal-update-event").html(data);
+            }
+        });
+    }
+
+    function deleteEvent(id) {
+        $.ajax({
+            type: 'get',
+            url: urlEvent.urlDelete,
+            data: {
+                id: id
+            },
+            success: function (data) {
+                $("#modal-delete-event").html(data);
+            }
+        });
+    }
+</script>
