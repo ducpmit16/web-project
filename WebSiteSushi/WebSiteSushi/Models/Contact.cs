@@ -19,5 +19,6 @@ namespace WebSiteSushi.Models
         public string ContactEmail { get; set; }
         public string ContactTitle { get; set; }
         public string ContactTitleContent { get; set; }
+        public Nullable<bool> ContactStatus { get; set; }
     }
 }

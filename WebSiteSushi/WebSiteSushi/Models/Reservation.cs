@@ -11,14 +11,10 @@ namespace WebSiteSushi.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Data.Entity;
     
     public partial class Reservation
     {
         public int BookID { get; set; }
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> BookDate { get; set; }
         public Nullable<System.TimeSpan> BookTime { get; set; }
         public Nullable<int> NumberOfPeople { get; set; }
