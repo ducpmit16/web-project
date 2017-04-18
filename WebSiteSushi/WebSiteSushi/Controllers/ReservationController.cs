@@ -28,6 +28,37 @@ namespace WebSiteSushi.Controllers
             ViewBag.key = nm;
             return View("ReservationPartial", mod.ToPagedList(pageNumber, pageSize));
         }
+        public ActionResult searchPeopleByStatus(bool stt, int? page)
+        {
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            List<Reservation> mod = new List<Reservation>();
+            if(stt == false)
+            {
+                mod = db.Reservations.Where(n => n.Status == stt && n.BookDate >= DateTime.Now).ToList();
+            }
+            else if(stt == true)
+            {
+                mod = db.Reservations.Where(n => n.Status == stt).ToList();
+            }
+            return View("ReservationPartial", mod.ToPagedList(pageNumber, pageSize));
+        }
+        public ActionResult searchPeopleByBoth(string nm, bool stt, int? page)
+        {
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            List<Reservation> mod = new List<Reservation>();
+            if (stt == false)
+            {
+                mod = db.Reservations.Where(n => n.Status == stt && n.NameBookedPeople.Contains(nm) && n.BookDate >= DateTime.Now).ToList();
+            }
+            else if (stt == true)
+            {
+                mod = db.Reservations.Where(n => n.Status == stt && n.NameBookedPeople.Contains(nm)).ToList();
+            }
+            ViewBag.key = nm;
+            return View("ReservationPartial", mod.ToPagedList(pageNumber, pageSize));
+        }
         public ActionResult Update(int id)
         {
             var result = db.Reservations.FirstOrDefault(n => n.BookID == id);
