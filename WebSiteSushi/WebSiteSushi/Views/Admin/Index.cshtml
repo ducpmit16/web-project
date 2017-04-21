@@ -1,113 +1,32 @@
-﻿
+﻿@model WebSiteSushi.Models.User
+
 @{
-    ViewBag.Title = " SushiStar Administration";
+    ViewBag.Title = "Sushi Login";
     Layout = "~/Views/Layout/AdminLayout.cshtml";
 }
-
-<div class="sidebar-nav">
-    <div class="sidebar-nav-first">
-        <div class="row">
-            <div class="col-md-2 col-sm-2 col-xs-2"><img class="img-circle" src="~/Image/admin/photo.jpg"></div>
-            <div class="col-md-8 col-sm-8 col-xs-8">
-                <p>Benjamin Combs</p>
-                <p><span class="glyphicon glyphicon-ok"></span> Online</p>
+<div id="login-screen">
+    @using (Html.BeginForm("Index", "Admin", FormMethod.Post, new { @autocomplete = "off" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        if (@ViewBag.Message != null)
+        {
+            <div style="border:1px solid red">
+                @ViewBag.Message
             </div>
+        }
+        <div class="form-group">
+            @Html.LabelFor(n => n.username, "User name : ")
+            @Html.TextBoxFor(n => n.username, new { @class = "form-control" })
+            @Html.ValidationMessageFor(n => n.username)
         </div>
-    </div>
-    <ul class="nav nav-list">
-        <li class="active">
-            <a href="javascript:void(0)" id="defaultOpenTab" class="tab_links" onclick="openTab(event, 'admin-home')"><span class="glyphicon glyphicon-home"></span>Dashboard</a>
-        </li>
-        <li>
-            <a href="javascript:void(0)" class="tab_links" onclick="openTab(event, 'admin-menu')"><span class="glyphicon glyphicon-menu-hamburger"></span>Menu Manager</a>
-        </li>
-        <li>
-            <a href="javascript:void(0)" class="tab_links" onclick="openTab(event, 'admin-news')"><span class="glyphicon glyphicon-list-alt"></span>News manager</a>
-        </li>
-        <li>
-            <a href="javascript:void(0)" class="tab_links" onclick="openTab(event, 'admin-event')"><span class="glyphicon glyphicon-barcode"></span>Event Manager</a>
-        </li>
-        <li>
-            <a href="javascript:void(0)" class="tab_links" onclick="openTab(event, 'admin-reservation')"><span class="glyphicon glyphicon-tasks"></span>Reservation Manager</a>
-        </li>
-        <li>
-            <a href="javascript:void(0)" class="tab_links" onclick="openTab(event, 'admin-contact')"><span class="glyphicon glyphicon-user"></span>Contact Manager</a>
-        </li>
-    </ul>
-</div>
-
-<div id="main">
-    <ul>
-        <li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
-        <li> / </li>
-        <li><a href="#">Admin Panel</a></li>
-        <li> / </li>
-        <li><a href="#">Dashboard</a></li>
-    </ul>
-
-    <div class="tab_content" id="admin-home">
-        <h1><strong>DASHBOARD</strong></h1>
-        <p>Welcome back, <i>Benjamin</i></p>
-    </div>
-
-    <div class="tab_content" id="admin-menu">
-        <p class="text-center">Menu Manager</p>
-        <div class="tab">
-            <button class="tabMenuLinks" onclick="openTabMenu(event, 'menuTab')" id="defaultOpenMenuTab">Menus</button>
-            <button class="tabMenuLinks" onclick="openTabMenu(event, 'menuDetailTab')">Menus Detail</button>
+        <div class="form-group">
+            @Html.LabelFor(n => n.password, "Password : ")
+            @Html.PasswordFor(n => n.password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(n => n.password)
         </div>
-        <div id="menuTab" class="tabMenuContent">
-            <form id="search-menu">
-                <label>Search by name : </label>
-                <input type="text" name="search" placeholder="Search..." onkeyup="searchMenu()">
-            </form>
-            @Html.Action("MenuPartial", "Menu")
-        </div>
-        <div id="menuDetailTab" class="tabMenuContent">
-            <form id="search-menu-detail">
-                <label>Search by name : </label>
-                <input type="text" name="search" placeholder="Search..." onkeyup="searchMenuDetail()">
-            </form>
-            @Html.Action("MenuDetailPartial", "MenuDetail")
-        </div>
-    </div>
-
-    <div class="tab_content" id="admin-news">
-        <p class="text-center">News manager</p>
-        <form id="search-news">
-            <label>Search by title : </label>
-            <input type="text" name="search" placeholder="Search..." onkeyup="searchNews()" />
-        </form>
-        @Html.Action("NewsPartial", "News")
-    </div>
-
-    <div class="tab_content" id="admin-event">
-        <p class="text-center">Event Manager</p>
-        <form id="search-event">
-            <label>Search by name : </label>
-            <input type="text" name="search" placeholder="Search..." onkeyup="searchEvent()" />
-        </form>
-        @Html.Action("EventPartial", "Event")
-    </div>
-
-    <div class="tab_content" id="admin-reservation">
-        <p class="text-center">Reservation Manager</p>
-        <form id="search-name">
-            <label>Search by name person : </label>
-            <input type="text" name="search" placeholder="Search..." onkeyup="searchName()" />
-
-            <label class="radio-inline">
-                <input type="radio" name="optradio" />Coming
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="optradio" />Came
-            </label>
-        </form>
-        @Html.Action("ReservationPartial", "Reservation")
-        <p class="text-right">(Allow deleting when customers did not come on the next day)</p>
-    </div>
-
-    <div class="tab_content" id="admin-contact">
-        <p class="text-center">Contact Manager</p>
-    </div>
+        <input type="submit" class="btn btn-default" value="Login"/>
+        <br />
+        <p style="color:red">@ViewBag.status</p>
+    }
 </div>

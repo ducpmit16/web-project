@@ -1,0 +1,76 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<WebSiteSushi.Models.Contact>
+
+@{
+    ViewBag.Title = "ContactPartial";
+    Layout = null;
+}
+
+<div id="tbl-contact">
+    <table class="tbl-info">
+        <tr>
+            <th class="text-center">Name</th>
+            <th class="text-center">Mail</th>
+            <th class="text-center">Title</th>
+            <th class="text-center">Title Content</th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.ContactName</th>
+                <th>@item.ContactEmail</th>
+                <th>@item.ContactTitle</th>
+                <th>@item.ContactTitleContent</th>
+                <th>
+                    @if (item.ContactStatus == true)
+                    {
+                        <a href="#" class="btn btn-danger disabled">Replied</a>
+                    }
+                    else
+                    {
+                        <a href="#" class="btn btn-success" onclick="reply(@item.ContactId)" data-toggle="modal" data-target="#reply-feedback">Reply</a>
+                    }
+                </th>
+            </tr>
+        }
+    </table>
+    <div id="pagerContact">
+        @Html.PagedListPager(Model, page => Url.Action("ContactPartial", "Contact", new { page, key = @ViewBag.key }))
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="reply-feedback" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content panel-info" id="modal-reply-feedback"></div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(document).on("click", "#pagerContact a[href]", function () {
+            $.ajax({
+                url: $(this).attr("href"),
+                type: "GET",
+                cache: false,
+                success: function (result) {
+                    $("#tbl-contact").html(result);
+                }
+            });
+            return false;
+        });
+    });
+    function reply(id) {
+        $.ajax({
+            type: 'get',
+            url: '@Url.Action("Feedback", "Contact")',
+            data: {
+                id: id
+            },
+            success: function (data) {
+                $("#modal-reply-feedback").html(data);
+            }
+        });
+    }
+</script>

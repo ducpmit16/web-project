@@ -12,7 +12,7 @@
         <div class="news-detail">
             <img src="~/Image/news/@item.image_news" />
             <p>@item.name_news</p>
-            <a href="#">Xem chi tiết...</a>
+            <a href="#" onclick="read(@item.id_news)">Xem chi tiết...</a>
         </div>
         <hr />
     }
@@ -21,6 +21,10 @@
     </div>
 </div>
     
+<div id="news-content-detail">
+
+</div>
+
 <script>
     $(document).ready(function () {
         $(document).on("click", "#pagerNews a[href]", function () {
@@ -47,6 +51,20 @@
             success: function (data) {
                 $("#tbl-news").html("");
                 $("#tbl-news").html(data);
+            }
+        });
+    }
+
+    function read(id) {
+        $("#tbl-news").hide();
+        $.ajax({
+            type: "get",
+            url: "@Url.Action("NewsDetail", "Home")",
+            data: {
+                id: id
+            },
+            success: function(data) {
+                $("#news-content-detail").html(data);
             }
         });
     }

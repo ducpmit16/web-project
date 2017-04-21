@@ -22,6 +22,8 @@
 </div>
 <script>
     function UpdateStatus(id) {
+        count_reserv--;
+        $("#reserv-badge").text(count_reserv);
         $.ajax({
             url: '@Url.Action("updateStatus", "Reservation")',
             type: 'post',
@@ -34,7 +36,7 @@
                         success: function (data) {
                             $("#tbl-reservation").html("");
                             $("#tbl-reservation").html(data);
-
+                            // $("span.badge")
                             $('#update-status').modal('hide');
                             $('body').removeClass('modal-open');
                             $('.modal-backdrop').remove();

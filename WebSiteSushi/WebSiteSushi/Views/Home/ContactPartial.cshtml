@@ -1,43 +1,69 @@
 ﻿@using WebSiteSushi.Models
-@model Contact
+@model WebSiteSushi.Models.Contact
 
 @{
     ViewBag.Title = "ContactPartial";
     Layout = null;
 }
 
-<div class="row">
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        <div class="contact-info-top">
-            <form>
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Họ và tên *">
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Địa chỉ Email *">
-                        </div>
-                    </div>
-                </div>
+
+<div class="contact-info-top">
+    <form id="send-feedback">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Tiêu đề">
+                    @Html.TextBox("ContactName", null, new { @class = "form-control", @placeholder = "Họ và tên *" })
                 </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="form-group">
-                    <textarea class="form-control" rows="5" placeholder="Nội dung tiêu đề"></textarea>
+                    @Html.TextBox("ContactEmail", null, new { @class = "form-control", @placeholder = "Địa chỉ Email *" })
                 </div>
-                <input type="submit" value="LIÊN HỆ">
-            </form>
+            </div>
         </div>
-    </div>
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        <div class="contact-info-bot">
-            <p>LIÊN HỆ VỚI CHÚNG TÔI</p>
-            <p>Liên hệ với chúng tôi khi cần, Nếu có thắc mắc và phản hồi, xin vui lòng gửi email cho chúng tôi tại <strong>marketing@star.com</strong></p>
-            <p>Hoặc liên hệ trực tiếp với chúng tôi qua Hotline</p>
-            <img src="~/Image/hotpot.png">
+        <div class="form-group">
+            @Html.TextBox("ContactTitle", null, new { @class = "form-control", @placeholder = "Tiêu đề" })
+        </div>
+        <div class="form-group">
+            @Html.TextArea("ContactTitleContent", null, new { @class = "form-control", @placeholder = "Nội dung tiêu đề", @rows = "5" })
+        </div>
+        <input type="button" value="LIÊN HỆ" onclick="sendFeedback()">
+        <div id="loader"></div>
+    </form>
+    <div id="contact-alert">
+        <div class="alert alert-success alert-dismissable fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Trân trọng cảm ơn Quý khách!</strong> Sự phản hồi của Quý khách chính là góp phần làm nên thành công của SushiStar.
         </div>
     </div>
 </div>
+    
+<script>
+    $(document).ready(function () {
+        $("#contact-alert").hide();
+        $("div#loader").hide();
+    });
+    function sendFeedback() {
+        $("#loader").show();
+        $.ajax({
+            url: '@Url.Action("Contacted", "Home")',
+            type: 'post',
+            data: $("#send-feedback").serialize(),
+            success: function (response) {
+                if (response == 'True') {
+                    $.ajax({
+                        url: '@Url.Action("ContactPartial", "Home")',
+                        type: 'post',
+                        success: function (data) {
+                            $("#send-feedback").each(function () {
+                                this.reset();
+                                $("#loader").hide();
+                                $("#contact-alert").show();
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>

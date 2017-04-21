@@ -94,6 +94,8 @@
     </div>
 
     <div id="reserv-info">
+        <p class="text-center">Hãy để SushiStar truyền niềm hạnh phúc đó tới bạn bằng cách</p>
+        <p class="text-center">ĐẶT BÀN NGAY HÔM NAY</p>
         @Html.Action("ReservationPartial", "Home")
     </div>
 
@@ -104,9 +106,20 @@
             <p class="text-center">LIÊN HỆ VỚI CHÚNG TÔI</p>
         </div>
     </div>
-
     <div id="contact-info">
-        @Html.Action("ContactPartial", "Home")
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.Action("ContactPartial", "Home")
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="contact-info-bot">
+                    <p>LIÊN HỆ VỚI CHÚNG TÔI</p>
+                    <p>Liên hệ với chúng tôi khi cần, Nếu có thắc mắc và phản hồi, xin vui lòng gửi email cho chúng tôi tại <strong>marketing@star.com</strong></p>
+                    <p>Hoặc liên hệ trực tiếp với chúng tôi qua Hotline</p>
+                    <img src="~/Image/hotpot.png">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

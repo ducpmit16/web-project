@@ -1,0 +1,68 @@
+﻿@using WebSiteSushi.Models
+@model WebSiteSushi.Models.Contact
+
+@{
+    ViewBag.Title = "Feedback";
+    Layout = null;
+}
+
+<div class="modal-header panel-heading">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Send mail to reply customers</h4>
+</div>
+<div class="modal-body">
+    <form id="frmContact">
+        @Html.HiddenFor(n => n.ContactId)
+        <div class="form-group">
+            <label>Send to : </label>
+            @Html.TextBoxFor(n => n.ContactEmail, new { @class = "form-control", @readonly = "true" })
+        </div>
+        <div class="form-group">
+            <label>Title : </label>
+            @Html.TextBoxFor(n => n.ContactTitle, new { @class = "form-control", @readonly = "true" })
+        </div>
+        <div class="form-group">
+            <label for="contact-title-detail">Content : </label>
+            @Html.TextArea("contact_detail", null, new { @class = "form-control", @placeholder = "Nhập nội dung", @rows = "7" })
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div id="loader"></div>
+    <button type="button" class="btn btn-default" onclick="sendFeedback()">Send</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#loader").hide();
+    });
+    function sendFeedback() {
+        count_mail--;
+        $("#mail-badge").text(count_mail);
+        $("#loader").show();
+        $.ajax({
+            url: '@Url.Action("replyFeedback", "Contact")',
+            type: 'post',
+            data: $("#frmContact").serialize(),
+            success: function (response) {
+                if (response == 'True') {
+                    $.ajax({
+                        url: '@Url.Action("ContactPartial", "Contact")',
+                        type: 'post',
+                        success: function (data) {
+                            $("#loader").hide();
+                            $("#tbl-contact").html("");
+                            $("#tbl-contact").html(data);
+
+                            $("#reply-feedback").modal('hide');
+                            $("body").removeClass('modal-open');
+                            $(".modal-backdrop").remove();
+                            $("body").css("padding", "0");
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>

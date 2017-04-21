@@ -87,21 +87,54 @@
             });
             return false;
         });
+
+        $("input:radio[name=status]").change(function () {
+            $("form#search-name input[type=text]").val("");
+            var keyStatus = this.value;
+            $.ajax({
+                url: '@Url.Action("searchPeopleByStatus", "Reservation")',
+                type: "post",
+                data: {
+                    stt: keyStatus
+                },
+                success: function (data) {
+                    $("#tbl-reservation").html("");
+                    $("#tbl-reservation").html(data);
+                }
+            });
+        });
     });
 
     function searchName() {
         var keySearch = $("form#search-name input[type=text]").val().trim();
-        $.ajax({
-            url: urlReservation.urlSearch,
-            type: "post",
-            data: {
-                nm: keySearch
-            },
-            success: function (data) {
-                $("#tbl-reservation").html("");
-                $("#tbl-reservation").html(data);
-            }
-        });
+        if ($("input:radio[name=status]").is(':checked')) {
+            var keyStatus = $("input:radio[name=status]").val();
+            $.ajax({
+                url: '@Url.Action("searchPeopleByBoth", "Reservation")',
+                type: "post",
+                data: {
+                    nm: keySearch,
+                    stt: keyStatus
+                },
+                success: function (data) {
+                    $("#tbl-reservation").html("");
+                    $("#tbl-reservation").html(data);
+                }
+            });
+        }
+        else {
+            $.ajax({
+                url: urlReservation.urlSearch,
+                type: "post",
+                data: {
+                    nm: keySearch
+                },
+                success: function (data) {
+                    $("#tbl-reservation").html("");
+                    $("#tbl-reservation").html(data);
+                }
+            });
+        }
     }
 
     function updateStatus(id) {
@@ -126,6 +159,18 @@
             },
             success: function (data) {
                 $("#modal-delete-status").html(data);
+            }
+        });
+    }
+    function clearReserv() {
+        $("form#search-name input[type=text]").val("");
+        $("input:radio[name=status]").prop('checked', false);
+        $.ajax({
+            url: '@Url.Action("ReservationPartial", "Reservation")',
+            type: "post",
+            success: function (data) {
+                $("#tbl-reservation").html("");
+                $("#tbl-reservation").html(data);
             }
         });
     }

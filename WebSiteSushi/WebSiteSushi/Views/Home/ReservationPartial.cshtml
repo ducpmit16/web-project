@@ -1,50 +1,82 @@
 ﻿@using WebSiteSushi.Models
-@model Reservation
+@model WebSiteSushi.Models.Reservation
+
 @{
     ViewBag.Title = "ReservationPartial";
     Layout = null;
 }
 
-<p class="text-center">Hãy để SushiStar truyền niềm hạnh phúc đó tới bạn bằng cách</p>
-<p class="text-center">ĐẶT BÀN NGAY HÔM NAY</p>
-<form>
+<form id="book-table">
     <div class="row">
         <div class="col-md-4 col-sm-4 col-xs-12 form-group">
             <div class="input-group">
-                <input type="text" id="reservation-day" class="form-control datepicker" placeholder="Ngày đặt bàn *">
+                @Html.TextBox("BookDate", null, new { @id = "reservation-day", @class = "form-control datepicker", @placeholder = "Ngày đặt bàn *" })
                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
             </div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12 form-group">
             <div class="input-group">
-                <input type="text" id="reservation-time" class="form-control timepicker" placeholder="Thời gian *">
+                @Html.TextBox("BookTime", null, new { @id = "reservation-time", @class = "form-control timepicker", @placeholder = "Thời gian *" })
                 <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
             </div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-            <input type="text" class="form-control" placeholder="Số người *">
+            @Html.TextBox("NumberOfPeople", null, new { @class = "form-control", @placeholder = "Số người *" })
         </div>
     </div>
     <div class="row">
         <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-            <input type="text" class="form-control" placeholder="Họ và tên người đặt *">
+            @Html.TextBox("NameBookedPeople", null, new { @class = "form-control", @placeholder = "Họ và tên người đặt *" })
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-            <input type="email" class="form-control" placeholder="Địa chi Email *">
+            @Html.TextBox("Email", null, new { @class = "form-control", @placeholder = "Địa chi Email *" })
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-            <input type="tel" class="form-control" placeholder="Số điện thoại *">
+            @Html.TextBox("PhoneNumber", null, new { @class = "form-control", @placeholder = "Số điện thoại *" })
         </div>
     </div>
     <div class="form-group">
-        <textarea class="form-control" rows="5" placeholder="Yêu cầu thêm"></textarea>
+        @Html.TextArea("MoreRequest", null, new { @rows = "5", @class = "form-control", @placeholder = "Yêu cầu thêm"})
     </div>
-    <input type="submit" value="ĐẶT BÀN NGAY">
+    <input type="button" onclick="BookNow()" value="ĐẶT BÀN NGAY">
+    <div id="loader"></div>
 </form>
+
+<div id="reserv-alert">
+    <div class="alert alert-success alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Trân trọng cảm ơn Quý khách!</strong> Thông tin đặt bàn của Quý khách dã được gửi đến bộ phận Chăm sóc Khách hàng. Trong vòng 24 giờ, chúng tôi sẽ liên lạc theo thông tin Quý khách đã đăng ký để xác nhận tình trạng đặt bàn và xác nhận trước thông tin qua mail của Quý khách.
+    </div>
+</div>
 
 <script>
     $(document).ready(function () {
         $(".datepicker").datepicker();
         $(".timepicker").timepicker();
+        $("#reserv-alert").hide();
+        $("#loader").hide();
     });
+    function BookNow() {
+        $("#loader").show();
+        $.ajax({
+            url: '@Url.Action("Reserved", "Home")',
+            type: 'post',
+            data: $("#book-table").serialize(),
+            success: function (response) {
+                if (response == 'True') {
+                    $.ajax({
+                        url: '@Url.Action("ReservationPartial", "Home")',
+                        type: 'post',
+                        success: function (data) {
+                            $("#book-table").each(function () {
+                                this.reset();
+                                $("#loader").hide();
+                                $("#reserv-alert").show();
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    }
 </script>
