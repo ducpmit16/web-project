@@ -14,7 +14,11 @@ namespace WebSiteSushi.Controllers
         // GET: ChartDashboard
         public ActionResult ChartArrayBasic()
         {
-            return View(db.Menus.ToList());
+            ViewBag.menuAll = db.Menus.Count();
+            ViewBag.menusAll = db.Menu_Detail.Count();
+            ViewBag.reservAll = db.Reservations.Count();
+            ViewBag.mailAll = db.Contacts.Count();
+            return View();
         }
     }
 }

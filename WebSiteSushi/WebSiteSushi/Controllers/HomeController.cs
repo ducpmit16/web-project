@@ -38,6 +38,11 @@ namespace WebSiteSushi.Controllers
             ViewBag.key = nm;
             return View("NewsPartial", mod.ToPagedList(pageNumber, pageSize));
         }
+        public ActionResult NewsDetail(int id)
+        {
+            var result = db.News.FirstOrDefault(n => n.id_news == id);
+            return View(result);
+        }
         public ActionResult NewsRandomPartial()
         {
             return View(db.News.OrderBy(x => Guid.NewGuid()).Take(4).ToList());
